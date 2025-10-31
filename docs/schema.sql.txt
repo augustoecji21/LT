@@ -1,0 +1,53 @@
+CREATE DATABASE lite_thinking_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE lite_thinking_db;
+
+CREATE TABLE empresa (
+  nit VARCHAR(20) PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  direccion VARCHAR(150),
+  telefono VARCHAR(20)
+);
+
+CREATE TABLE categoria (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE producto (
+  codigo VARCHAR(20) PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  caracteristicas TEXT,
+  precio DECIMAL(10,2),
+  empresa_nit VARCHAR(20),
+  FOREIGN KEY (empresa_nit) REFERENCES empresa(nit)
+);
+
+CREATE TABLE cliente (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  correo VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE orden (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fecha DATE,
+  cliente_id INT,
+  FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+);
+
+CREATE TABLE producto_categoria (
+  producto_codigo VARCHAR(20),
+  categoria_id INT,
+  PRIMARY KEY (producto_codigo, categoria_id),
+  FOREIGN KEY (producto_codigo) REFERENCES producto(codigo),
+  FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+);
+
+CREATE TABLE orden_producto (
+  orden_id INT,
+  producto_codigo VARCHAR(20),
+  cantidad INT DEFAULT 1,
+  PRIMARY KEY (orden_id, producto_codigo),
+  FOREIGN KEY (orden_id) REFERENCES orden(id),
+  FOREIGN KEY (producto_codigo) REFERENCES producto(codigo)
+);
