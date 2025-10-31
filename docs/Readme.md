@@ -107,6 +107,40 @@ NEXT_PUBLIC_API_URL=http://localhost:8080/api
 
 ---
 
+## 📚 Documentación de la API - Swagger UI
+
+El backend incluye **Swagger UI** para documentar y probar de forma visual los endpoints disponibles.  
+Swagger se genera automáticamente con las dependencias de `springdoc-openapi-starter-webmvc-ui`.
+
+### 🔹 Acceso local
+Cuando el backend se ejecuta localmente:
+http://localhost:8080/swagger-ui/index.html
+
+### 🧩 Ejemplo de rutas disponibles
+
+| Método | Endpoint | Descripción |
+|---------|-----------|-------------|
+| **GET** | `/api/empresas` | Lista todas las empresas registradas |
+| **POST** | `/api/empresas` | Crea una nueva empresa |
+| **GET** | `/api/productos` | Lista todos los productos o filtra por empresa |
+| **POST** | `/api/productos` | Crea un nuevo producto asociado a una empresa |
+| **GET** | `/api/inventario/{nit}` | Genera el inventario por empresa |
+| **POST** | `/api/inventario/email` | Envía el inventario al correo usando AWS SES |
+
+---
+
+### ⚙️ Configuración (backend)
+
+Si necesitas verificar o activar Swagger manualmente, asegúrate de tener esta dependencia en el `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>org.springdoc</groupId>
+  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+  <version>2.3.0</version>
+</dependency>
+```
+
 ## 📬 Funcionalidades principales
 
 | Módulo | Descripción |
