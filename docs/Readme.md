@@ -107,65 +107,6 @@ NEXT_PUBLIC_API_URL=http://localhost:8080/api
 
 ---
 
-## 🧩 Despliegue en AWS
-
-### 🔹 **1. Base de Datos (RDS)**
-1. Crear instancia MySQL en Amazon RDS.  
-2. Configurar usuario y contraseña (`admin` por defecto).  
-3. Guardar endpoint del RDS (por ejemplo: `lt-mysql.cacdefgh123.us-east-1.rds.amazonaws.com`).
-
-### 🔹 **2. Backend (Elastic Beanstalk)**
-1. Ejecutar:
-   ```bash
-   mvn clean package -DskipTests
-   ```
-2. Subir el JAR generado (`target/app-0.0.1-SNAPSHOT.jar`) a Elastic Beanstalk.  
-3. En **Variables de entorno** del entorno EB:
-   ```bash
-   SPRING_DATASOURCE_URL=jdbc:mysql://<RDS-ENDPOINT>:3306/litethinking
-   SPRING_DATASOURCE_USERNAME=admin
-   SPRING_DATASOURCE_PASSWORD=TuPassword
-   AWS_REGION=us-east-1
-   AWS_SES_SENDER=no-reply@tudominio.com
-   ```
-
-4. Asegurar que el grupo de seguridad del Beanstalk tenga acceso al puerto `3306` del RDS.
-
----
-
-### 🔹 **3. Frontend (AWS Amplify)**
-1. Subir el proyecto `frontend/` a GitHub.  
-2. Ir a [AWS Amplify Console](https://console.aws.amazon.com/amplify/) → “Host your web app”.  
-3. Conectar el repositorio GitHub.  
-4. En las variables de entorno:
-   ```bash
-   NEXT_PUBLIC_API_URL=https://<tu-backend-elastic-beanstalk>.elasticbeanstalk.com/api
-   ```
-5. En el archivo `amplify.yml`:
-   ```yaml
-   version: 1
-   frontend:
-     phases:
-       preBuild:
-         commands:
-           - npm ci
-       build:
-         commands:
-           - npm run build
-     artifacts:
-       baseDirectory: .next
-       files:
-         - '**/*'
-     cache:
-       paths:
-         - node_modules/**/*
-   ```
-
-6. Deploy → Amplify genera dominio:  
-   `https://main.<hash>.cloudfront.net`
-
----
-
 ## 📬 Funcionalidades principales
 
 | Módulo | Descripción |
@@ -198,6 +139,3 @@ NEXT_PUBLIC_API_URL=http://localhost:8080/api
 
 ---
 
-## 🏁 Licencia
-Proyecto de uso académico y demostrativo © 2025 - Lite Thinking  
-Distribuido bajo licencia **MIT**.
